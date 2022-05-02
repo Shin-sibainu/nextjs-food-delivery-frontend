@@ -13,7 +13,7 @@ import {
   Col,
 } from "reactstrap";
 
-const query = gql`
+const QUERY = gql`
   {
     restaurants {
       id
@@ -26,24 +26,17 @@ const query = gql`
   }
 `;
 
-const RestaurantList = (props) => {
-  const { loading, error, data } = useQuery(query);
-  //   console.log(data.restaurants[0]);
+function RestaurantList(props) {
+  const { loading, error, data } = useQuery(QUERY);
   if (error) return "Error loading restaurants";
-
+  //if restaurants are returned from the GraphQL query, run the filter query
+  //and set equal to variable restaurantSearch
   if (loading) return <h1>Fetching</h1>;
-
   if (data.restaurants && data.restaurants.length) {
-    //検索機能
-    // const searchQuery = data.restaurants.filter((query) => {
-    //   query.name.toLowerCase().includes(props.search);
-    //   //   console.log(data.restaurants[0]);
-    //   console.log(query.name.toLowerCase());
-    // });
-    const searchQuery = data.restaurants;
-    // console.log(props.search);
-    // console.log(searchQuery);
-    //もしレストランの名前があるなら。
+    //searchQuery
+    const searchQuery = data.restaurants.filter((query) =>
+      query.name.toLowerCase().includes(props.search)
+    );
     if (searchQuery.length != 0) {
       return (
         <Row>
@@ -64,7 +57,7 @@ const RestaurantList = (props) => {
                     as={`/restaurants/${res.id}`}
                     href={`/restaurants?id=${res.id}`}
                   >
-                    <a className="btn btn-primary">もっと見る</a>
+                    <a className="btn btn-primary">View</a>
                   </Link>
                 </div>
               </Card>
@@ -91,10 +84,9 @@ const RestaurantList = (props) => {
         </Row>
       );
     } else {
-      return <h1>レストランが見つかりません</h1>;
+      return <h1>No Restaurants Found</h1>;
     }
   }
   return <h5>Add Restaurants</h5>;
-};
-
+}
 export default RestaurantList;
