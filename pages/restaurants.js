@@ -13,6 +13,8 @@ import {
   Row,
 } from "reactstrap";
 
+import Cart from "../components/cart/";
+
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
     restaurant(id: $id) {
@@ -86,6 +88,11 @@ function Restaurants(props) {
               </Card>
             </Col>
           ))}
+          {/* <Col xs="3" style={{ padding: 0 }}>
+            <div>
+              <Cart />
+            </div>
+          </Col> */}
         </Row>
       </>
     );
