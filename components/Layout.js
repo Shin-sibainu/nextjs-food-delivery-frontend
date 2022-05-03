@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { logout } from "../lib/auth";
+import AppContext from "../context/AppContext";
 
 import { Container, Nav, NavItem } from "reactstrap";
 
 const Layout = (props) => {
+  const { user, setUser } = useContext(AppContext);
   return (
     <div>
       <Head>
@@ -31,15 +34,33 @@ const Layout = (props) => {
           </NavItem>
 
           <NavItem className="ml-auto">
-            <Link href="/login">
-              <a className="nav-link">サインイン</a>
-            </Link>
+            {user ? (
+              <Link href="/">
+                <a
+                  className="nav-link"
+                  onClick={() => {
+                    logout();
+                    setUser(null);
+                  }}
+                >
+                  ログアウト
+                </a>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <a className="nav-link">サインイン</a>
+              </Link>
+            )}
           </NavItem>
 
           <NavItem>
-            <Link href="/register">
-              <a className="nav-link">サインアップ</a>
-            </Link>
+            {user ? (
+              <h5>{user.username}</h5>
+            ) : (
+              <Link href="/register">
+                <a className="nav-link">サインアップ</a>
+              </Link>
+            )}
           </NavItem>
         </Nav>
       </header>
