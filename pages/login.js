@@ -21,7 +21,10 @@ const Login = () => {
   // console.log(data);
 
   useEffect(() => {
+    console.log("fff");
+    console.log(appContext.isAuthenticated); //false
     if (appContext.isAuthenticated) {
+      console.log("a");
       //すでにログインしてるならリダイレクトする。
       router.push("/");
     }
