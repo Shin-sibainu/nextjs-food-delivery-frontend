@@ -10,15 +10,25 @@ function Cart() {
   const router = useRouter();
 
   const { cart, isAuthenticated } = appContext;
+  console.log(isAuthenticated);
 
   return (
     <div>
       <Card style={{ padding: "10px 5px" }} className="cart">
-        <CardTitle style={{ margin: 10 }}>Your Order:</CardTitle>
+        <CardTitle
+          style={{
+            margin: 10,
+            textAlign: "center",
+            fontWeight: 600,
+            fontSize: 25,
+          }}
+        >
+          注文一覧
+        </CardTitle>
         <hr />
         <CardBody style={{ padding: 10 }}>
           <div style={{ marginBottom: 6 }}>
-            <small>Items:</small>
+            <small>料理:</small>
           </div>
           <div>
             {cart.items
@@ -73,7 +83,7 @@ function Cart() {
               cart.items.length > 0 ? (
                 <div>
                   <Badge style={{ width: 200, padding: 10 }} color="light">
-                    <h5 style={{ fontWeight: 100, color: "gray" }}>Total:</h5>
+                    <h5 style={{ fontWeight: 100, color: "gray" }}>合計:</h5>
                     <h3>${appContext.cart.total.toFixed(2)}</h3>
                   </Badge>
                   {router.pathname === "/restaurants" && (
@@ -85,7 +95,7 @@ function Cart() {
                     >
                       <Link href="/checkout">
                         <Button style={{ width: "100%" }} color="primary">
-                          <a>Order</a>
+                          <a>注文する</a>
                         </Button>
                       </Link>
                     </div>

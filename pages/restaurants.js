@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 
 import {
   Button,
@@ -14,6 +15,7 @@ import {
 } from "reactstrap";
 
 import Cart from "../components/cart/";
+import AppContext from "../context/AppContext";
 
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
@@ -33,7 +35,8 @@ const GET_RESTAURANT_DISHES = gql`
   }
 `;
 
-function Restaurants(props) {
+function Restaurants() {
+  const appContext = useContext(AppContext);
   const router = useRouter();
   const { loading, error, data } = useQuery(GET_RESTAURANT_DISHES, {
     variables: { id: router.query.id },
@@ -60,7 +63,11 @@ function Restaurants(props) {
                   <CardText>{res.description}</CardText>
                 </CardBody>
                 <div className="card-footer">
-                  <Button outline color="primary">
+                  <Button
+                    outline
+                    color="primary"
+                    onClick={() => appContext.addItem(res)}
+                  >
                     + カートに入れる
                   </Button>
 
@@ -88,11 +95,11 @@ function Restaurants(props) {
               </Card>
             </Col>
           ))}
-          {/* <Col xs="3" style={{ padding: 0 }}>
+          <Col xs="3" style={{ padding: 0 }}>
             <div>
               <Cart />
             </div>
-          </Col> */}
+          </Col>
         </Row>
       </>
     );
