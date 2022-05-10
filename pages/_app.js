@@ -20,12 +20,15 @@ class MyApp extends App {
     console.log(cart);
 
     //注文した後に実装するといいね。
-    if (cart !== "undefined") {
+    if (cart !== "undefined" && typeof cart === "string") {
       //JSON形式で書かれた文字列をJavaScriptのJSONオブジェクトに変換するメソッド.
       //変換したものはJsonデータとして自由に扱える。
       JSON.parse(cart).forEach((item) => {
         this.setState({
-          cart: { items: JSON.parse(cart), total: item.price * item.quantity },
+          cart: {
+            items: JSON.parse(cart),
+            total: (this.state.cart.total += item.price * item.quantity),
+          },
         });
       });
     }
